@@ -1,16 +1,26 @@
 package android.btth.notemanagementsystem;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -27,6 +37,7 @@ public class Main2Activity extends AppCompatActivity implements InfoDialog.InfoD
     private Button btnClose;
     private EditText edtCat;
     private TextView txtDiaForm;
+    Layout lg;
     FloatingActionButton fab;
     SharedPreferences sharedPreferences;
 
@@ -51,6 +62,9 @@ public class Main2Activity extends AppCompatActivity implements InfoDialog.InfoD
 //        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
@@ -63,12 +77,34 @@ public class Main2Activity extends AppCompatActivity implements InfoDialog.InfoD
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_category, R.id.nav_priority,
                 R.id.nav_status, R.id.nav_note, R.id.nav_editprofile,
-                R.id.nav_changepassword)
+                R.id.nav_changepassword, R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id=menuItem.getItemId();
+                //it's possible to do more actions on several items, if there is a large amount of items I prefer switch(){case} instead of if()
+                if (id==R.id.nav_logout){
+                    Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    finish();
+                }
+                //This is for maintaining the behavior of the Navigation view
+                NavigationUI.onNavDestinationSelected(menuItem,navController);
+                //This is for closing the drawer after acting on it
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+    }
+
+    public void logout(){
     }
 
     @Override

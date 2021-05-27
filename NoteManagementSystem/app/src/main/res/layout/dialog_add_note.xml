@@ -11,7 +11,7 @@
         android:layout_height="41dp"
         android:layout_marginTop="28dp"
         android:ems="10"
-        android:hint="@string/enter_note_name"
+        android:hint="Tên bắt buộc override theo tùy ý"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -73,25 +73,39 @@
         android:text="Button"
         app:layout_constraintTop_toBottomOf="@+id/spnStt" />
 
-    <Spinner
-        android:layout_below="@+id/txtDate"
-        android:id="@+id/spnTB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+<!--    <TextView-->
+<!--        android:id="@+id/txtTime"-->
+<!--        android:layout_below="@+id/txtDate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:inputType="text"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spnStt" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btnTimepicker"-->
+<!--        android:layout_below="@+id/txtDate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="222dp"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:layout_marginEnd="28dp"-->
+<!--        android:layout_marginRight="12dp"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:text="Alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spnStt" />-->
 
     <EditText
         android:id="@+id/edtDetail"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/spnTB"
+        android:layout_below="@+id/txtDate"
         android:layout_width="match_parent"
         android:layout_height="41dp"
         android:ems="10"
-        android:hint="Lưu ý nếu có"
+        android:hint="Ghi chú có thể không cần overide"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

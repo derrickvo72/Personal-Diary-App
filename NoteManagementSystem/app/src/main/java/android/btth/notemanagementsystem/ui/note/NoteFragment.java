@@ -2,16 +2,16 @@ package android.btth.notemanagementsystem.ui.note;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.btth.notemanagementsystem.Adapter.NoteAdapter;
 import android.btth.notemanagementsystem.AppDatabase;
 import android.btth.notemanagementsystem.R;
-import android.btth.notemanagementsystem.entity.Category;
+import android.btth.notemanagementsystem.TimePickerFragment;
 import android.btth.notemanagementsystem.entity.Note;
 import android.btth.notemanagementsystem.entity.NoteDetails;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,21 +39,23 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class NoteFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class NoteFragment extends Fragment implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     RecyclerView recyclerView;
     NoteAdapter noteAdapter;
     LinearLayoutManager layoutManager;
     List<NoteDetails> noteDetailsList;
     AppDatabase adb;
-    Button btnClose,btnAdd,btnTimePlan;
+    Button btnClose,btnAdd,btnTimePlan, btnTimePicker;
     EditText edtNoteName;
-    TextView txtDate;
+    TextView txtDate, txtTime;
     FloatingActionButton fbtnAddNote;
     private SharedPreferences sharedPreferences;
     int userID;
     NoteDetails ndd;
     String[] lstCatName, lstPrioName,lstSttName;
+    int day, month, year, hour, minute;
+    int myday, myMonth, myYear, myHour, myMinute;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,9 +74,7 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
         fbtnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 OpenInfoDialog();
-
             }
         });
 
@@ -143,16 +144,6 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
         listc.addAll(Arrays.asList(lstSttName));
         Object[] c = listc.toArray();
 
-        Spinner spnTB =(Spinner) view.findViewById(R.id.spnTB);
-        ArrayList<String> arrayTB = new ArrayList<String>();
-
-        //Set template method cái này
-        arrayTB.add("Chọn nhắc nhở...");
-        arrayTB.add("Không nhắc nhở");
-        arrayTB.add("Nhắc nhở");
-        ArrayAdapter arrayAdapterTB = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item,arrayTB);
-        arrayAdapterTB.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnTB.setAdapter(arrayAdapterTB);
 
         ArrayAdapter lstStt = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,c);
         lstStt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -209,6 +200,13 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
 
             alertDialog.cancel();
         });
+
+
+//        txtTime = view.findViewById(R.id.txtTime);
+//        btnTimePicker = view.findViewById(R.id.btnTimepicker);
+//        btnTimePicker.setOnClickListener(v -> {
+//
+//        });
 
     }
     /*
@@ -423,4 +421,8 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
         return super.onContextItemSelected(item);
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
 }
