@@ -3,6 +3,7 @@ package android.btth.notemanagementsystem.ui.category;
 import android.app.AlertDialog;
 import android.btth.notemanagementsystem.Adapter.CatAdapter;
 import android.btth.notemanagementsystem.AppDatabase;
+import android.btth.notemanagementsystem.Controller.Category_Controller;
 import android.btth.notemanagementsystem.R;
 import android.btth.notemanagementsystem.dao.CategoryDao;
 import android.btth.notemanagementsystem.entity.Category;
@@ -37,20 +38,22 @@ public class CategoryFragment extends Fragment {
     private Button btnClose;
 
 
-    String[] catNameDefault= {"Working","Study","Relax"};
+    String[] catNameDefault = {"Working", "Study", "Relax"};
 
 
     public CategoryDao categoryDao;
 
     AppDatabase appDatabase;
 
+    //
+    Category_Controller category_controller;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         /**
          * tao layout recylerview
          */
         View root = inflater.inflate(R.layout.fragment_category, container, false);
-        rcvCat = (RecyclerView)root.findViewById(R.id.rcv_Cat);
+        rcvCat = (RecyclerView) root.findViewById(R.id.rcv_Cat);
 
 //        appDatabase.getInstance(getContext()).categoryDao().insertCat(new Category("dsafgeywyugdddd","uueueiwueiwueiw"));
 
@@ -59,10 +62,13 @@ public class CategoryFragment extends Fragment {
          */
         categoryDao = appDatabase.getInstance(getContext()).categoryDao();
 
+        //khoi tao controller
+        category_controller = new Category_Controller(new String[] {"Working", "Study", "Relax"}, appDatabase.getInstance(getContext()).categoryDao());
+
         /**
          *  mo 1 dialog them category khi an vao floating button
          */
-        fbtnCat =(FloatingActionButton)root.findViewById(R.id.fbtnCat);
+        fbtnCat = (FloatingActionButton) root.findViewById(R.id.fbtnCat);
         fbtnCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,8 +78,6 @@ public class CategoryFragment extends Fragment {
 
             }
         });
-
-
 
 
         rcvCat.setHasFixedSize(true);
@@ -109,9 +113,9 @@ public class CategoryFragment extends Fragment {
     /**
      * dialog them category
      */
-    public void OpenInfoDialog(){
+    public void OpenInfoDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = getLayoutInflater().inflate(R.layout.layout_dialog,null);
+        View view = getLayoutInflater().inflate(R.layout.layout_dialog, null);
         AlertDialog alertDialog = builder.create();
 //        builder.setTitle("dsafhuie").setView(view).show();
         alertDialog.setView(view);
@@ -134,63 +138,29 @@ public class CategoryFragment extends Fragment {
         btnAdd.setOnClickListener(v -> {
 
 
-
-
-
             /**
              * anh xa du lieu tu view
              */
             EditText edtCatName = view.findViewById(R.id.edtCat);
             String txtCatName = edtCatName.getText().toString();
 
-            /**
-             * flagforadd = true : du lieu dau vao dung
-             * flagforadd = true : du lieu dau vao sai
-             */
 
-            String txtCategoryName = edtCatName.getText().toString().trim();
-            boolean flagforadd = false;
-            for (String obj: catNameDefault
-            ) {
-                if(obj.equals(txtCategoryName)){
-                    flagforadd = true;
-                }
-            }
-            if(flagforadd==true) {
-                /**
-                 * kiem tra status da co trong db chua
-                 */
-                if(categoryDao.checkCatNameinDb(txtCategoryName)>0){
-                    edtCatName.setError("Category nay da ton tai");
-                    return;
-                }
-                else{
-                    Calendar cal = Calendar.getInstance();
-
-                    String strDate = DateFormat.format("yyyy-MM-dd hh:mm:ss",cal).toString();
-
-                    categoryDao.insertCat(  new Category( txtCategoryName, strDate));
-
-                    mListCategory=categoryDao.getListCategory();
-                    catAdapter.setData(mListCategory);
-                    rcvCat.setAdapter(catAdapter);
-
-                    alertDialog.cancel();
-                }
-            }
-            else {
-                edtCatName.setError("Vui long nhap dung ten Category");
+//Error
+            String err = category_controller.add(txtCatName);
+            if(err!= null){
+                edtCatName.setError(err);
                 return;
             }
-
-
-
+            mListCategory = categoryDao.getListCategory();
+            catAdapter.setData(mListCategory);
+            rcvCat.setAdapter(catAdapter);
+            alertDialog.cancel();
         });
-
     }
 
     /**
      * tao context menu cho tung item trong recyclerview
+     *
      * @param item
      * @return
      */
@@ -204,7 +174,7 @@ public class CategoryFragment extends Fragment {
         int numberofnote = appDatabase.getInstance(getContext()).noteDao().countNotewithCategoryID(categoryDetailsID);
 
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             /**
              * case 001 la nut delete
              * case 002 la nut edit
@@ -212,11 +182,10 @@ public class CategoryFragment extends Fragment {
             case 001:
 
                 System.out.println(numberofnote);
-                if(numberofnote > 0){
+                if (numberofnote > 0) {
                     Toast.makeText(getContext(), "Khong the xoa vi category nay co note su dung", Toast.LENGTH_LONG).show();
 
-                }
-                else {
+                } else {
                     mListCategory.remove(item.getGroupId());
                     appDatabase.getInstance(getContext()).categoryDao().delete(c);
                     catAdapter.notifyDataSetChanged();
@@ -225,7 +194,7 @@ public class CategoryFragment extends Fragment {
                 return true;
             case 002:
 
-                OpenInfoDialog2(c,item);
+                OpenInfoDialog2(c, item);
                 return true;
         }
         return super.onContextItemSelected(item);
@@ -233,18 +202,19 @@ public class CategoryFragment extends Fragment {
 
     /**
      * mo dialog khi an nut edit tu 1 item trong category
+     *
      * @param c
      * @param item
      */
-    public void OpenInfoDialog2(Category c, MenuItem item){
+    public void OpenInfoDialog2(Category c, MenuItem item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        View view = getLayoutInflater().inflate(R.layout.layout_dialog,null);
-        Button save =view.findViewById(R.id.btnAdd);
+        View view = getLayoutInflater().inflate(R.layout.layout_dialog, null);
+        Button save = view.findViewById(R.id.btnAdd);
         EditText edtCatName = view.findViewById(R.id.edtCat);
 //        System.out.println(newCatName);
         Calendar cal = Calendar.getInstance();
 
-        String strDate = DateFormat.format("yyyy-MM-dd hh:mm:ss",cal).toString();
+        String strDate = DateFormat.format("yyyy-MM-dd hh:mm:ss", cal).toString();
         edtCatName.setText(c.catName);
 
         save.setText("Save");
@@ -264,20 +234,19 @@ public class CategoryFragment extends Fragment {
              * flagforadd = true : du lieu dau vao sai
              */
 
-            String newCatName=edtCatName.getText().toString();
+            String newCatName = edtCatName.getText().toString();
             boolean flagforadd = false;
-            for (String obj: catNameDefault
+            for (String obj : catNameDefault
             ) {
-                if(obj.equals(newCatName)){
+                if (obj.equals(newCatName)) {
                     flagforadd = true;
                 }
             }
-            if(flagforadd==true) {
-                if(categoryDao.checkCatNameinDb(newCatName)>0){
+            if (flagforadd == true) {
+                if (categoryDao.checkCatNameinDb(newCatName) > 0) {
                     edtCatName.setError("Category nay da ton tai");
                     return;
-                }
-                else{
+                } else {
                     c.setCatName(newCatName);
                     c.setTimeCre(strDate);
                     appDatabase.getInstance(getContext()).categoryDao().update(c);
@@ -286,12 +255,10 @@ public class CategoryFragment extends Fragment {
                     catAdapter.notifyDataSetChanged();
                     alertDialog.cancel();
                 }
-            }
-            else {
+            } else {
                 edtCatName.setError("Vui long nhap dung ten Category");
                 return;
             }
-
 
 
         });
@@ -304,8 +271,6 @@ public class CategoryFragment extends Fragment {
             alertDialog.cancel();
 //            categoryDao.deleteAll();
         });
-
-
 
 
     }

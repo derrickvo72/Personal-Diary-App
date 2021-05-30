@@ -94,6 +94,9 @@ public class Main2Activity extends AppCompatActivity implements InfoDialog.InfoD
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                     finish();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("userID");
+                    editor.commit();
                 }
                 //This is for maintaining the behavior of the Navigation view
                 NavigationUI.onNavDestinationSelected(menuItem,navController);

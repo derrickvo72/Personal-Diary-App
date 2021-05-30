@@ -47,6 +47,12 @@ public class SigninActivity extends AppCompatActivity {
         btnSignin.setOnClickListener(v -> {
             doSignIn();
         });
+
+
+        if(sharedPreferences.getInt("userID",-1) != -1){
+            startActivity(new Intent(this, Main2Activity.class));
+            finish();
+        }
     }
 
     public void rememberUser(){

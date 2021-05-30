@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.btth.notemanagementsystem.Adapter.NoteAdapter;
 import android.btth.notemanagementsystem.AppDatabase;
+import android.btth.notemanagementsystem.Controller.Note_Controller;
 import android.btth.notemanagementsystem.R;
 import android.btth.notemanagementsystem.TimePickerFragment;
 import android.btth.notemanagementsystem.entity.Note;
@@ -54,8 +55,11 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
     int userID;
     NoteDetails ndd;
     String[] lstCatName, lstPrioName,lstSttName;
+
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
+
+    Note_Controller note_controller;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,6 +71,8 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
+        //controller
+        note_controller = new Note_Controller(getContext(),adb.getInstance(getContext()).noteDao());
 //        AppDatabase.getInstance(getContext()).categoryDao().insertCat(new Category("huhucat","aa"));
 //        AppDatabase.getInstance(getContext()).priorityDao().insertCat(new Priority("huhuprio","aa"));
 //        AppDatabase.getInstance(getContext()).statusDao().insertCat(new Status("sttt","aa"));
@@ -171,28 +177,11 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
             int catID = AppDatabase.getInstance(getContext()).categoryDao().getCatIdByCatName(spnCat.getSelectedItem().toString());
             int prioID = AppDatabase.getInstance(getContext()).priorityDao().getPrioIdByPrioName(spnPrio.getSelectedItem().toString());
             int sttID = AppDatabase.getInstance(getContext()).statusDao().getSttIdBySttName(spnStt.getSelectedItem().toString());
-            if(edtNoteName.length()==0) {
-                edtNoteName.setError("Vui long nhap ten");
-                return;
-            }
-            else
-                edtNoteName.setError(null);
-            if(catID ==0 ) {
-                Toast.makeText(getContext(), "Vui long chon Category", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if(prioID ==0 ) {
-                Toast.makeText(getContext(), "Vui long chon Priority", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if(sttID ==0 ){
-                Toast.makeText(getContext(),"Vui long chon Status", Toast.LENGTH_LONG).show();
-                return;
-            }
-
             Note note = new Note(txtNoteName, catID, prioID, sttID, txtDate.getText().toString(), strDate, userID);
-            AppDatabase.getInstance(getContext()).noteDao().insertNote(note);
-
+            String err = note_controller.add(note);
+            if(err != null){
+                edtNoteName.setError(err);
+            }
             noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
             System.out.println("NoteName: "+ txtNoteName);
             noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
@@ -350,32 +339,18 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
             int catID = AppDatabase.getInstance(getContext()).categoryDao().getCatIdByCatName(spnCat.getSelectedItem().toString());
             int prioID = AppDatabase.getInstance(getContext()).priorityDao().getPrioIdByPrioName(spnPrio.getSelectedItem().toString());
             int sttID = AppDatabase.getInstance(getContext()).statusDao().getSttIdBySttName(spnStt.getSelectedItem().toString());
-            if(edtNoteName.length()==0) {
-                edtNoteName.setError("Vui long nhap ten");
-                return;
-            }
-            else
-                edtNoteName.setError(null);
-            if(catID ==0 ) {
-                Toast.makeText(getContext(), "Vui long chon Category", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if(prioID ==0 ) {
-                Toast.makeText(getContext(), "Vui long chon Priority", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if(sttID ==0 ){
-                Toast.makeText(getContext(),"Vui long chon Status", Toast.LENGTH_LONG).show();
-                return;
-            }
 
+            //Controller Add
             note.noteName = txtNoteName;
             note.catID = catID;
             note.prioID=prioID;
             note.sttID=sttID;
             note.timePlan=txtDate.getText().toString();
             note.timeCre=strDate;
-            adb.getInstance(getContext()).noteDao().Update(note);
+            String err = note_controller.edit(note.noteID,note);
+            if(err != null){
+                edtNoteName.setError(err);
+            }
 //
             noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
 //            System.out.println("NoteName: "+ txtNoteName);
@@ -409,7 +384,7 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
              * Case 002: Edit
              */
             case 001:
-                adb.getInstance(getContext()).noteDao().delete(note);
+                note_controller.delete(note);
                 noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
                 noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
                 recyclerView.setAdapter(noteAdapter);

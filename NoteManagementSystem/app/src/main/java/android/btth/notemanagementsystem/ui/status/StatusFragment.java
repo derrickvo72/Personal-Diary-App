@@ -3,6 +3,7 @@ package android.btth.notemanagementsystem.ui.status;
 import android.app.AlertDialog;
 import android.btth.notemanagementsystem.Adapter.StatusAdapter;
 import android.btth.notemanagementsystem.AppDatabase;
+import android.btth.notemanagementsystem.Controller.Status_Controller;
 import android.btth.notemanagementsystem.R;
 import android.btth.notemanagementsystem.dao.StatusDao;
 import android.btth.notemanagementsystem.entity.Note;
@@ -44,7 +45,7 @@ public class StatusFragment extends Fragment {
     List<String> test1;
     AppDatabase appDatabase;
 
-
+    Status_Controller status_controller;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,7 +59,7 @@ public class StatusFragment extends Fragment {
  *  lay cac method tu DAO
  */
         statusDao = appDatabase.getInstance(getContext()).statusDao();
-
+        status_controller = new Status_Controller(sttNameDefault,statusDao);
         fbtnStatus =(FloatingActionButton)root.findViewById(R.id.fbtnStatus);
         /**
          * nut mo dialog them status
@@ -131,39 +132,19 @@ public class StatusFragment extends Fragment {
  * flagforadd = true : du lieu dau vao sai
  */
             String txtStatusName = edtStatusName.getText().toString().trim();
-            boolean flagforadd = false;
-            for (String obj: sttNameDefault
-                 ) {
-                if(obj.equals(txtStatusName)){
-                    flagforadd = true;
-                }
-            }
-            if(flagforadd==true) {
-                /**
-                 * kiem tra status da co trong db chua
-                 */
-                if(statusDao.checkSttNameinDb(txtStatusName)>0){
-                    edtStatusName.setError("Status nay da ton tai");
-                    return;
-                }
-                else{
-                    Calendar cal = Calendar.getInstance();
 
-                    String strDate = DateFormat.format("yyyy-MM-dd hh:mm:ss",cal).toString();
 
-                    statusDao.insertStatus(  new Status( txtStatusName, strDate));
-
-                    mListStatus=statusDao.getListStatus();
-                    statusAdapter.setData(mListStatus);
-                    rcvStatus.setAdapter(statusAdapter);
-
-                    alertDialog.cancel();
-                }
-            }
-            else {
-                edtStatusName.setError("Vui long nhap dung ten status");
+            String err = status_controller.add(txtStatusName);
+            if(err!= null){
+                edtStatusName.setError(err);
                 return;
             }
+
+            mListStatus = statusDao.getListStatus();
+            statusAdapter.setData(mListStatus);
+            rcvStatus.setAdapter(statusAdapter);
+
+            alertDialog.cancel();
         });
 
     }
