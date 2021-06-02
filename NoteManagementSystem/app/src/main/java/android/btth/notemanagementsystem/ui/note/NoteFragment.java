@@ -67,7 +67,7 @@ public class NoteFragment extends Fragment implements OnItemSelectedListener, Da
                              ViewGroup container, Bundle savedInstanceState) {
         sharedPreferences = this.getActivity().getSharedPreferences("dataLogin", Context.MODE_PRIVATE);
 
-        String[] sttFilterDefault = {"Fillter...","High", "Medium", "Low"};
+        String[] sttFilterDefault = {"Filter...","High", "Medium", "Low"};
 
 
 
@@ -94,7 +94,7 @@ public class NoteFragment extends Fragment implements OnItemSelectedListener, Da
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //Lọc
-                if(arrayListFilter.get(i) == "Fillter..."){
+                if(arrayListFilter.get(i) == "Filter..."){
                     noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
                     noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
                     recyclerView.setAdapter(noteAdapter);
@@ -114,9 +114,7 @@ public class NoteFragment extends Fragment implements OnItemSelectedListener, Da
 
         //controller
         note_controller = new Note_Controller(getContext(),adb.getInstance(getContext()).noteDao());
-//        AppDatabase.getInstance(getContext()).categoryDao().insertCat(new Category("huhucat","aa"));
-//        AppDatabase.getInstance(getContext()).priorityDao().insertCat(new Priority("huhuprio","aa"));
-//        AppDatabase.getInstance(getContext()).statusDao().insertCat(new Status("sttt","aa"));
+
         fbtnAddNote =(FloatingActionButton)root.findViewById(R.id.fbtnAddNote);
         fbtnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,7 +390,18 @@ public class NoteFragment extends Fragment implements OnItemSelectedListener, Da
             if(err != null){
                 edtNoteName.setError(err);
             }
-//
+
+//Cap nhat
+            String[] sttFilterDefault = {"Filter...","High", "Medium", "Low"};
+            ArrayList<String> arrayListFilter = new ArrayList<String>();
+            for (String str : sttFilterDefault)
+                arrayListFilter.add(str);
+
+            ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,arrayListFilter);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            filter.setAdapter(arrayAdapter);
+            noteDetailsList = note_controller.getByPriority(userID,"Filter...");
+
             noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
 //            System.out.println("NoteName: "+ txtNoteName);
             noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
@@ -426,6 +435,18 @@ public class NoteFragment extends Fragment implements OnItemSelectedListener, Da
              */
             case 001:
                 note_controller.delete(note);
+
+                //Cap nhat
+                String[] sttFilterDefault = {"Filter...","High", "Medium", "Low"};
+                ArrayList<String> arrayListFilter = new ArrayList<String>();
+                for (String str : sttFilterDefault)
+                    arrayListFilter.add(str);
+
+                ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,arrayListFilter);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                filter.setAdapter(arrayAdapter);
+                noteDetailsList = note_controller.getByPriority(userID,"Filter...");
+
                 noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
                 noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
                 recyclerView.setAdapter(noteAdapter);

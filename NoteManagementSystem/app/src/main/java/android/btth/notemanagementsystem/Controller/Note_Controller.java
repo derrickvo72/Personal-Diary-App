@@ -76,6 +76,7 @@ public class Note_Controller extends Manage {
         return null;
     }
 
+    //Lọc theo priority
     public List<NoteDetails> getByPriority(int userId, String proName){
         return noteDao.getNoteByPriority(userId,proName);
     }

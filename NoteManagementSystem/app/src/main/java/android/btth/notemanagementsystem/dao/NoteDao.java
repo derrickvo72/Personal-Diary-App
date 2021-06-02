@@ -51,6 +51,7 @@ public interface NoteDao {
     @Query("select count(*) from note where prioID=:priotocheck")
     int countNotewithPrioID(int priotocheck);
 
+//Lọc theo priority
     @Query("SELECT noteID,noteName,catName,prioName,sttName,timePlan,note.timeCre as timeCre " +
             "FROM note,category,priority,status " +
             "Where note.catID= category.catID and note.prioID = priority.prioID and note.sttID= status.sttID and note.userID =:userID and priority.prioName=:proName")
