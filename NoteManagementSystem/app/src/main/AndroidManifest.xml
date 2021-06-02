@@ -12,7 +12,8 @@
         <activity android:name=".SignupActivity">
 
         </activity>
-        <activity android:name=".SigninActivity">
+        <activity android:name=".SigninActivity"
+            android:theme="@style/Theme.NoteManagementSystem.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

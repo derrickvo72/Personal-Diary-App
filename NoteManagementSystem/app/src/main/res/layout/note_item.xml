@@ -4,9 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
     <LinearLayout
+        android:background="@color/yellow"
+        android:padding="10dp"
         android:id="@+id/note_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,40 +19,70 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:textColor="@android:color/holo_red_light"
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@android:color/darker_gray"/>
+
 
         <TextView
+            android:textColor="@android:color/holo_blue_dark"
             android:id="@+id/txtCat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
+            android:textColor="@android:color/holo_orange_dark"
             android:id="@+id/txtPrio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
+            android:textColor="@android:color/holo_purple"
             android:id="@+id/txtSTT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
+            android:textColor="@android:color/black"
             android:id="@+id/txtPlan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/txtCre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginBottom="10dp" />
+            android:text="TextView" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@android:color/darker_gray"/>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

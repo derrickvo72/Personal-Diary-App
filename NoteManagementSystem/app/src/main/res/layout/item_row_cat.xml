@@ -4,9 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@color/blue">
 
     <LinearLayout
+        android:padding="5dp"
         android:id="@+id/item_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +19,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:textStyle="bold"
+            android:textColor="@color/yellow"
             android:layout_marginLeft="5dp"
             android:id="@+id/txtCatName"
             android:layout_width="match_parent"
@@ -23,6 +28,7 @@
             android:text="Name:" />
 
         <TextView
+            android:textColor="@color/white"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/txtCatDate"
