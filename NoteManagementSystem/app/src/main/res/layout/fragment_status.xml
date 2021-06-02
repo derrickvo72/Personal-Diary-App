@@ -6,10 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <Spinner
+        android:id="@+id/spnStaName"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="24dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/rcv_Status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_Status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

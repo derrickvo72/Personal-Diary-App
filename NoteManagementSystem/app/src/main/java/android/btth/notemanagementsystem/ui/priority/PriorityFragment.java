@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,9 +38,11 @@ public class PriorityFragment extends Fragment {
     private FloatingActionButton fbtnPrio;
     private Button btnAddPrio;
     private Button btnClosePrio;
+    private Spinner spnPRI;
+
     Priority_Controller priority_controller;
 
-    String[] sttNameDefault = {"High", "Medium", "Low"};
+    String[] sttNameDefault = {"Check our available Priority ...","High", "Medium", "Low"};
 
     public PriorityDao priorityDao;
 
@@ -53,6 +57,11 @@ public class PriorityFragment extends Fragment {
  */
         View root = inflater.inflate(R.layout.fragment_priority, container, false);
         rcvPrio = (RecyclerView) root.findViewById(R.id.rcv_Prio);
+
+        spnPRI=  (Spinner) root.findViewById(R.id.spnPriName);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,sttNameDefault);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnPRI.setAdapter(arrayAdapter);
 /**
  *  lay cac method tu DAO
  */

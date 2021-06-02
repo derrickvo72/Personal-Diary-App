@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,10 +39,9 @@ public class CategoryFragment extends Fragment {
     private FloatingActionButton fbtnCat;
     private Button btnAdd;
     private Button btnClose;
+    private Spinner spnCAT;
 
-
-    String[] catNameDefault = {"Working", "Study", "Relax"};
-
+    String[] catNameDefault = {"Check our available Category...","Working", "Study", "Relax"};
 
     public CategoryDao categoryDao;
 
@@ -54,6 +56,12 @@ public class CategoryFragment extends Fragment {
          */
         View root = inflater.inflate(R.layout.fragment_category, container, false);
         rcvCat = (RecyclerView) root.findViewById(R.id.rcv_Cat);
+
+
+        spnCAT=  (Spinner) root.findViewById(R.id.spnCatName);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,catNameDefault);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCAT.setAdapter(arrayAdapter);
 
 //        appDatabase.getInstance(getContext()).categoryDao().insertCat(new Category("dsafgeywyugdddd","uueueiwueiwueiw"));
 
@@ -141,6 +149,8 @@ public class CategoryFragment extends Fragment {
             /**
              * anh xa du lieu tu view
              */
+
+
             EditText edtCatName = view.findViewById(R.id.edtCat);
             String txtCatName = edtCatName.getText().toString();
 

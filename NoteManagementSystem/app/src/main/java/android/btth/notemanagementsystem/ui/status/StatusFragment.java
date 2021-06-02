@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,10 +42,11 @@ public class StatusFragment extends Fragment {
     private FloatingActionButton fbtnStatus;
     private Button btnAddStatus;
     private Button btnCloseStatus;
-    String[] sttNameDefault= {"Processing","Done","Pending"};
+    String[] sttNameDefault= {"Check our available Status...","Processing","Done","Pending"};
     public StatusDao statusDao;
     List<String> test1;
     AppDatabase appDatabase;
+    private Spinner spnSTATE;
 
     Status_Controller status_controller;
 
@@ -55,6 +58,11 @@ public class StatusFragment extends Fragment {
  */
         View root = inflater.inflate(R.layout.fragment_status, container, false);
         rcvStatus = (RecyclerView)root.findViewById(R.id.rcv_Status);
+
+        spnSTATE=  (Spinner) root.findViewById(R.id.spnStaName);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,sttNameDefault);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnSTATE.setAdapter(arrayAdapter);
 /**
  *  lay cac method tu DAO
  */
