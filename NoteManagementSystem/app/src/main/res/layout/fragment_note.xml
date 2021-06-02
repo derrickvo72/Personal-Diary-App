@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/star">
 
+    <Spinner
+        android:id="@+id/spnFilter"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/rcvNote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbtnAddNote"
         android:layout_width="wrap_content"
@@ -20,6 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="50dp"
         android:id="@+id/rcvNote"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

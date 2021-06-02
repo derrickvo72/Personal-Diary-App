@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,7 +41,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-public class NoteFragment extends Fragment implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
+public class NoteFragment extends Fragment implements OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     RecyclerView recyclerView;
     NoteAdapter noteAdapter;
@@ -55,6 +56,7 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
     int userID;
     NoteDetails ndd;
     String[] lstCatName, lstPrioName,lstSttName;
+    Spinner filter;
 
     int day, month, year, hour, minute;
     int myday, myMonth, myYear, myHour, myMinute;
@@ -64,12 +66,51 @@ public class NoteFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         sharedPreferences = this.getActivity().getSharedPreferences("dataLogin", Context.MODE_PRIVATE);
+
+        String[] sttFilterDefault = {"Fillter...","High", "Medium", "Low"};
+
+
+
         userID = sharedPreferences.getInt("userID",0);
         View root = inflater.inflate(R.layout.fragment_note, container, false);
         recyclerView = (RecyclerView)root.findViewById(R.id.rcvNote);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        filter=  (Spinner)root.findViewById(R.id.spnFilter);
+
+        ArrayList<String> arrayListFilter = new ArrayList<String>();
+
+        for (String str : sttFilterDefault)
+
+            arrayListFilter.add(str);
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,arrayListFilter);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filter.setAdapter(arrayAdapter);
+
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//Lọc
+                if(arrayListFilter.get(i) == "Fillter..."){
+                    noteDetailsList = adb.getInstance(getContext()).noteDao().getNoteByUserID(userID);
+                    noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
+                    recyclerView.setAdapter(noteAdapter);
+                }else{
+                    noteDetailsList = note_controller.getByPriority(userID,arrayListFilter.get(i));
+                }
+
+                noteAdapter = new NoteAdapter(getContext(),noteDetailsList);
+                recyclerView.setAdapter(noteAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         //controller
         note_controller = new Note_Controller(getContext(),adb.getInstance(getContext()).noteDao());

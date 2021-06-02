@@ -30,7 +30,7 @@ public interface NoteDao {
             "Where note.catID= category.catID and note.prioID = priority.prioID and note.sttID= status.sttID and note.userID =:userID")
     List<NoteDetails> getNoteByUserID(int userID);
 
-    @Query("select sttID from note where userID = :userID group by sttID" )
+    @Query("select sttID from note where userID = :userID group by sttID")
     int[] getStatusIDByUserID(int userID);
 
     @Query("select count(*) from note where sttID=:sID and userID=:uID")
@@ -50,6 +50,12 @@ public interface NoteDao {
 
     @Query("select count(*) from note where prioID=:priotocheck")
     int countNotewithPrioID(int priotocheck);
+
+    @Query("SELECT noteID,noteName,catName,prioName,sttName,timePlan,note.timeCre as timeCre " +
+            "FROM note,category,priority,status " +
+            "Where note.catID= category.catID and note.prioID = priority.prioID and note.sttID= status.sttID and note.userID =:userID and priority.prioName=:proName")
+    List<NoteDetails> getNoteByPriority(int userID, String proName);
+
 
 
     @Query("SELECT noteID,noteName,catName,prioName,sttName,timePlan,note.timeCre as timeCre " +

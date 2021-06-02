@@ -3,6 +3,7 @@ package android.btth.notemanagementsystem.Controller;
 import android.app.AsyncNotedAppOp;
 import android.btth.notemanagementsystem.dao.NoteDao;
 import android.btth.notemanagementsystem.entity.Note;
+import android.btth.notemanagementsystem.entity.NoteDetails;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -73,5 +74,9 @@ public class Note_Controller extends Manage {
     @Override
     public List<Object> getAll() {
         return null;
+    }
+
+    public List<NoteDetails> getByPriority(int userId, String proName){
+        return noteDao.getNoteByPriority(userId,proName);
     }
 }
