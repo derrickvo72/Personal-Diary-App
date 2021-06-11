@@ -21,6 +21,5 @@ public abstract class CategoryDatabase extends RoomDatabase {
         }
         return instance;
     }
-
     public abstract CategoryDao categoryDao();
 }

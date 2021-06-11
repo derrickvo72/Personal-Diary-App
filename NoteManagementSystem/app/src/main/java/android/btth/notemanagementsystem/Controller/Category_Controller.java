@@ -18,7 +18,6 @@ public class Category_Controller extends Manage {
         this.catNameDefault = catNameDefault;
         this.categoryDao = categoryDao;
     }
-
     @Override
     public String add(Object object) {
         String txtCategoryName = object.toString();

@@ -17,7 +17,6 @@ public class Note_Controller extends Manage {
         this.context = context;
         this.noteDao = noteDao;
     }
-
     @Override
     public String add(Object object) {
         Note note = (Note) object;
