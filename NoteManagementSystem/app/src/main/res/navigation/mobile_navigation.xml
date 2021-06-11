@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="android.btth.notemanagementsystem.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_category"
+        android:name="android.btth.notemanagementsystem.ui.category.CategoryFragment"
+        android:label="Category"
+        tools:layout="@layout/fragment_category" />
+
+    <fragment
+        android:id="@+id/nav_priority"
+        android:name="android.btth.notemanagementsystem.ui.priority.PriorityFragment"
+        android:label="Priority"
+        tools:layout="@layout/fragment_priority" />
+    <fragment
+        android:id="@+id/nav_status"
+        android:name="android.btth.notemanagementsystem.ui.status.StatusFragment"
+        android:label="Status"
+        tools:layout="@layout/fragment_status"/>
+    <fragment
+        android:id="@+id/nav_note"
+        android:name="android.btth.notemanagementsystem.ui.note.NoteFragment"
+        android:label="Note"
+        tools:layout="@layout/fragment_note"/>
+    <fragment
+        android:id="@+id/nav_editprofile"
+        android:name="android.btth.notemanagementsystem.ui.editprofile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_editprofile"/>
+    <fragment
+        android:id="@+id/nav_changepassword"
+        android:name="android.btth.notemanagementsystem.ui.changepassword.ChangePasswordFragment"
+        android:label="Change Password"
+        tools:layout="@layout/fragment_changepassword"/>
+
+</navigation>

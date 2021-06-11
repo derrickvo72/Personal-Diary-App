@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edtNoteName"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="Tên bắt buộc override theo tùy ý"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:layout_below="@+id/edtNoteName"
+        android:id="@+id/spnCat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtNoteName" />
+
+    <Spinner
+        android:layout_below="@+id/spnCat"
+        android:id="@+id/spnPrio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnCat" />
+
+    <Spinner
+        android:layout_below="@+id/spnPrio"
+        android:id="@+id/spnStt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnPrio" />
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_below="@+id/spnStt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnStt" />
+
+    <Button
+        android:id="@+id/btnTimePlan"
+        android:layout_below="@+id/spnPrio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="222dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="12dp"
+        android:layout_alignParentRight="true"
+        android:text="Button"
+        app:layout_constraintTop_toBottomOf="@+id/spnStt" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtTime"-->
+<!--        android:layout_below="@+id/txtDate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:inputType="text"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spnStt" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btnTimepicker"-->
+<!--        android:layout_below="@+id/txtDate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="222dp"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:layout_marginEnd="28dp"-->
+<!--        android:layout_marginRight="12dp"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:text="Alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/spnStt" />-->
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_below="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:text="Add"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_below="@+id/txtDate"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="28dp"
+        android:text="Close"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</RelativeLayout>
