@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_category"
+            android:icon="@drawable/ic_baseline_category_24"
+            android:title="@string/category" />
+        <item
+            android:id="@+id/nav_priority"
+            android:icon="@drawable/ic_baseline_low_priority_24"
+            android:title="@string/priority" />
+        <item
+            android:id="@+id/nav_status"
+            android:icon="@drawable/ic_baseline_flag_24"
+            android:title="@string/status" />
+        <item
+            android:id="@+id/nav_note"
+            android:icon="@drawable/ic_baseline_sticky_note_2_24"
+            android:title="@string/note" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="@string/account">
+            <menu>
+                <item android:id="@+id/nav_editprofile"
+                    android:title="@string/edit_profile"
+                    android:icon="@drawable/ic_baseline_person_pin_24"/>
+                <item android:id="@+id/nav_changepassword"
+                    android:icon="@drawable/ic_baseline_send_24"
+                    android:title="@string/change_password"/>
+                <item android:id="@+id/nav_logout"
+                    android:icon="@drawable/ic_baseline_logout_24"
+                    android:title="Log out"/>
+            </menu>
+        </item>
+    </group>
+</menu>
